@@ -5,3 +5,10 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - run: pip install scipy pint matplotlib open_atmos_jupyter_utils
+      - uses: actions/checkout
+      - run: sudo apt-get install texlive-latex inkscape pandoc
+      - run: pip install nbconvert
+      - run: python -m nbconvert --to pdf --execute test.ipynb
+      - uses: actions/upload-artifact
+        with:
+          path: test.pdf
