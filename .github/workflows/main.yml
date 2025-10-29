@@ -4,4 +4,4 @@ jobs:
   pdf: 
     runs-on: ubuntu-22.04
     steps:
-      - run: pip install scipy,pint,matplotlib,open_atmos_jupyter_utils
+      - run: pip install scipy pint matplotlib open_atmos_jupyter_utils
