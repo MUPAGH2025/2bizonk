@@ -1,7 +1,6 @@
 import os
 os.environ["NUMBA_THREADING_LAYER"] = "omp"
 
-import numba
 import sys
 
 import numpy as np
