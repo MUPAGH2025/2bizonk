@@ -141,8 +141,8 @@ def generate_bathymetry(*,
         pyplot.plot(y, depth_1d, label="Bathymetry profile")
         pyplot.fill_between(y, 0, depth_1d, color='lightblue')
         pyplot.gca().invert_yaxis()
-        pyplot.xlabel("y (km)")
-        pyplot.ylabel("Depth (km)")
+        pyplot.xlabel("y [km]")
+        pyplot.ylabel("Depth [km]")
         pyplot.title("Bathymetry Profile")
         pyplot.grid()
         show_plot(filename="bathymetry_profile.png")
@@ -185,25 +185,35 @@ def make_h_initial(*,
     vh_initial = np.zeros_like(h_initial)
 
     if draw_profile:
-        fig, ax = pyplot.subplots(figsize=(8, 6))
+        fig, (ax_eta, ax_bathy) = pyplot.subplots(1, 2, figsize=(12, 6))
 
-        im = ax.imshow(
+        im = ax_eta.imshow(
             eta0 * 1000.0,
             origin="lower",
             extent=[Y.min(), Y.max(), X.min(), X.max()],
             aspect="auto"
         )
+        cbar = fig.colorbar(im, ax=ax_eta, pad=0.02)
+        cbar.set_label("wave height [m]", fontsize=12)
+        ax_eta.set_xlabel("y [km]", fontsize=12)
+        ax_eta.set_ylabel("x [km]", fontsize=12)
+        ax_eta.set_title("Initial disturbance of the water surface", fontsize=12)
+        ax_eta.grid(False)
 
-        cbar = pyplot.colorbar(im, ax=ax, pad=0.02)
-        cbar.set_label("η (m)", fontsize=12)
-        ax.set_xlabel("y (km)", fontsize=12)
-        ax.set_ylabel("x (km)", fontsize=12)
-        ax.set_title("Initial disturbance of the water surface", fontsize=12)
-        ax.grid(False)
+        y_line = Y[0, :]
+        depth_profile = bathymetry[0, :]
+
+        ax_bathy.plot(y_line, depth_profile, label="Bathymetry profile")
+        ax_bathy.fill_between(y_line, 0.0, depth_profile, alpha=0.3)
+        ax_bathy.invert_yaxis()
+        ax_bathy.set_xlabel("y (km)", fontsize=12)
+        ax_bathy.set_ylabel("Depth (km)", fontsize=12)
+        ax_bathy.set_title("Bathymetry", fontsize=12)
+        ax_bathy.grid(True)
+        ax_bathy.legend()
+
         pyplot.tight_layout()
         show_plot(filename="initial_eta.png")
-
-    return h_initial, vh_initial, uh_initial
 
 
 def animate_cross_section_y(
@@ -298,17 +308,21 @@ def animate_cross_section_y(
     ax_max.plot(time_max, h_max, label="Max wave height", color="#125d92")
     ax_max.set(
         xlabel="time [min]",
-        ylabel="Max wave height [m]",
-        title="Maximum wave height over time",
+        ylabel="max wave height [m]",
+        title="maximum wave height over time",
     )
     ax_max.grid(True, linewidth=0.3, alpha=0.4)
 
     ax_max2 = ax_max.twinx()
     ax_max2.plot(time_max, bathymetry_max, linestyle="--", linewidth=1.2, color="#631212", label="bathymetry at max height")
-    ax_max2.set_ylabel("depth (km)")
+    ax_max2.set_ylabel("depth [km]")
     ax_max2.invert_yaxis()
     ax_max2.set_yscale('log')
-    ax_max2.legend()
+
+    lines1, labels1 = ax_max.get_legend_handles_labels()
+    lines2, labels2 = ax_max2.get_legend_handles_labels()
+    if lines1 or lines2:
+        ax_max.legend(lines1 + lines2, labels1 + labels2, loc="upper right")
 
     pyplot.tight_layout()
     show_plot(filename="max_wave_height_over_time.png")
@@ -346,13 +360,14 @@ def plot_space_time_diagram(
     ax.set_xlabel("y [km]", fontsize=12)
     ax.set_ylabel("time [min]", fontsize=12)
     ax.set_xlim(0, 600)
+    ax.set_title("Space-time diagram of tsunami wave height", fontsize=14)
     ax.grid(False)
 
     ax.axvline(x=shelf_end, color='black', linestyle='--', linewidth=2)
     ax.axvline(x=slope_end, color='black', linestyle='--', linewidth=2)
 
     cbar = pyplot.colorbar(im, ax=ax, pad=0.02)
-    cbar.set_label("h (m)", fontsize=12)
+    cbar.set_label("wave height [m]", fontsize=12)
 
     if pos_segments is not None:
         for idx, (y_min_seg, y_max_seg, t_min_seg, t_max_seg) in enumerate(pos_segments):
