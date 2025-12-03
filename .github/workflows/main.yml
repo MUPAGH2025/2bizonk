@@ -13,8 +13,7 @@ jobs:
             --to pdf \
             --execute \
             --no-input \
-            --LatexPreprocessor.title="" \
-            --LatexPreprocessor.date="" \
+            --template lab \
             tsunami_symulation.ipynb
       - uses: actions/upload-artifact@v4
         with:
