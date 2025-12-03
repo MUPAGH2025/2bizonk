@@ -8,9 +8,16 @@ jobs:
       - uses: actions/checkout@v4
       - run: sudo apt-get install texlive-xetex inkscape pandoc
       - run: pip install nbconvert
-      - run: python -m nbconvert --to pdf --execute tsunami_symulation.ipynb --no-input 
+      - run: |
+          python -m nbconvert \
+            --to pdf \
+            --execute \
+            --no-input \
+            --LatexPreprocessor.title="" \
+            --LatexPreprocessor.date="" \
+            tsunami_symulation.ipynb
       - uses: actions/upload-artifact@v4
         with:
           path: |
-              tsunami_symulation.pdf
-              tsunami_cross_section.gif
+            tsunami_symulation.pdf
+            tsunami_cross_section.gif
