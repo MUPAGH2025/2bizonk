@@ -11,4 +11,4 @@ jobs:
       - run: python -m nbconvert --to pdf --execute tsunami_symulation.ipynb
       - uses: actions/upload-artifact@v4
         with:
-          path: anim.gif
+          path: tsunami_symulation.pdf
