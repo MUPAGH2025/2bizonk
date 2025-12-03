@@ -186,7 +186,7 @@ def make_h_initial(*,
     vh_initial = np.zeros_like(h_initial)
 
     if draw_profile:
-        fig, (ax_eta, ax_bathy) = pyplot.subplots(1, 2, figsize=(12, 6))
+        fig, (ax_eta, ax_bathy) = pyplot.subplots(1, 2, figsize=(10, 5))
 
         im = ax_eta.imshow(
             eta0 * 1000.0,
@@ -195,10 +195,10 @@ def make_h_initial(*,
             aspect="auto"
         )
         cbar = fig.colorbar(im, ax=ax_eta, pad=0.02)
-        cbar.set_label("wave height [m]", fontsize=12)
-        ax_eta.set_xlabel("y [km]", fontsize=12)
-        ax_eta.set_ylabel("x [km]", fontsize=12)
-        ax_eta.set_title("Initial disturbance of the water surface", fontsize=12)
+        cbar.set_label("wave height [m]", fontsize=20)
+        ax_eta.set_xlabel("y [km]", fontsize=20)
+        ax_eta.set_ylabel("x [km]", fontsize=20)
+        ax_eta.set_title("Initial disturbance of the water surface", fontsize=20)
         ax_eta.grid(False)
 
         y_line = Y[0, :]
@@ -207,14 +207,14 @@ def make_h_initial(*,
         ax_bathy.plot(y_line, depth_profile, label="Bathymetry profile")
         ax_bathy.fill_between(y_line, 0.0, depth_profile, alpha=0.3)
         ax_bathy.invert_yaxis()
-        ax_bathy.set_xlabel("y (km)", fontsize=12)
-        ax_bathy.set_ylabel("Depth (km)", fontsize=12)
-        ax_bathy.set_title("Bathymetry", fontsize=12)
+        ax_bathy.set_xlabel("y (km)", fontsize=20)
+        ax_bathy.set_ylabel("Depth (km)", fontsize=20)
+        ax_bathy.set_title("Bathymetry", fontsize=20)
         ax_bathy.grid(True)
         ax_bathy.legend()
 
         pyplot.tight_layout()
-        show_plot(filename="initial_eta.png")
+        _ = show_plot(filename="initial_eta.png")
     return h_initial, uh_initial, vh_initial
 
 
@@ -275,9 +275,14 @@ def animate_cross_section_y(
             xlim=(y_coords[0], y_coords[-1]),
             ylim=ylim,
             xlabel="$y$ [km]",
-            ylabel="$\eta$ [m]",
+            ylabel="$wave height$ [m]",
             title=f"Tsunami propagation,  t = {t_min:.2f} min",
         )
+
+        ax.tick_params(labelsize=16)
+        ax.xaxis.label.set_size(20)
+        ax.yaxis.label.set_size(20)
+        ax.title.set_size(20)
 
         ax.grid(True, linewidth=0.3, alpha=0.4)
         ax.set_xlim(0, y_coords.max())
@@ -291,7 +296,7 @@ def animate_cross_section_y(
             label="bathymetry",
         )
         ax2.invert_yaxis()
-        ax2.set_ylabel("depth (km)")
+        ax2.set_ylabel("depth (km)", fontsize=20)
         ax2.set_ylim(ylim_bathy)
 
         lines1, labels1 = ax.get_legend_handles_labels()
@@ -330,11 +335,16 @@ def animate_cross_section_y(
                 xlim=(y_coords[0], y_coords[-1]),
                 ylim=ylim_wave,
                 xlabel="$y$ [km]",
-                ylabel="$\eta$ [m]",
+                ylabel="$wave height$ [m]",
                 title=f"Tsunami propagation,  t = {t_min:.2f} min",
             )
             ax.grid(True, linewidth=0.3, alpha=0.4)
             ax.set_xlim(0, y_coords.max())
+
+            ax.tick_params(labelsize=16)
+            ax.xaxis.label.set_size(20)
+            ax.yaxis.label.set_size(20)
+            ax.title.set_size(20)
 
             ax2.plot(
                 y_coords,
@@ -345,7 +355,7 @@ def animate_cross_section_y(
                 label="bathymetry",
             )
             ax2.invert_yaxis()
-            ax2.set_ylabel("depth (km)")
+            ax2.set_ylabel("depth [km]", fontsize=20)
             ax2.set_ylim(ylim_bathy)
 
             lines1, labels1 = ax.get_legend_handles_labels()
@@ -372,6 +382,12 @@ def animate_cross_section_y(
         ylabel="max wave height [m]",
         title="maximum wave height over time",
     )
+
+    ax_max.tick_params(labelsize=16)
+    ax_max.xaxis.label.set_size(20)
+    ax_max.yaxis.label.set_size(20)
+    ax_max.title.set_size(20)
+
     ax_max.grid(True, linewidth=0.3, alpha=0.4)
 
     ax_max2 = ax_max.twinx()
@@ -383,7 +399,7 @@ def animate_cross_section_y(
         color="#631212",
         label="bathymetry at max height",
     )
-    ax_max2.set_ylabel("depth [km]")
+    ax_max2.set_ylabel("depth [km]", fontsize=20)
     ax_max2.invert_yaxis()
     ax_max2.set_yscale("log")
 
@@ -393,7 +409,7 @@ def animate_cross_section_y(
         ax_max.legend(lines1 + lines2, labels1 + labels2, loc="upper right")
 
     pyplot.tight_layout()
-    show_plot(filename="max_wave_height_over_time.png")
+    _ = show_plot(filename="max_wave_height_over_time.png")
 
 
 
@@ -425,17 +441,17 @@ def plot_space_time_diagram(
         cmap=cmap
     )
 
-    ax.set_xlabel("y [km]", fontsize=12)
-    ax.set_ylabel("time [min]", fontsize=12)
+    ax.set_xlabel("y [km]", fontsize=20)
+    ax.set_ylabel("time [min]", fontsize=20)
     ax.set_xlim(0, 600)
-    ax.set_title("Space-time diagram of tsunami wave height", fontsize=14)
+    ax.set_title("Space-time diagram of tsunami wave height", fontsize=20)
     ax.grid(False)
 
     ax.axvline(x=shelf_end, color='black', linestyle='--', linewidth=2)
     ax.axvline(x=slope_end, color='black', linestyle='--', linewidth=2)
 
     cbar = pyplot.colorbar(im, ax=ax, pad=0.02)
-    cbar.set_label("wave height [m]", fontsize=12)
+    cbar.set_label("wave height [m]", fontsize=20)
 
     if pos_segments is not None:
         for idx, (y_min_seg, y_max_seg, t_min_seg, t_max_seg) in enumerate(pos_segments):
@@ -472,8 +488,9 @@ def plot_space_time_diagram(
                 fontsize=12,
                 va='top',
                 color='white',
-                bbox=dict(facecolor='black', alpha=0.7, boxstyle='round,pad=0.2')
+                bbox=dict(facecolor='black', alpha=0.7, boxstyle='round,pad=0.2')   
             )
 
     pyplot.tight_layout()
-    show_plot(filename=f"space_time_diagram.png")
+    _ = show_plot(filename=f"space_time_diagram.png")
+    
