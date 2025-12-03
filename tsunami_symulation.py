@@ -5,6 +5,7 @@ import sys
 
 import numpy as np
 from matplotlib import pyplot
+from matplotlib import animation
 from open_atmos_jupyter_utils import show_plot, show_anim
 from PyMPDATA import ScalarField, Solver, Stepper, VectorField, Options, boundary_conditions
 
@@ -265,7 +266,6 @@ def animate_cross_section_y(
 
         fig, ax = pyplot.subplots(figsize=(10, 4))
 
-        # ax.scatter(y_coords[np.argmax(psi)], np.max(psi), color="red" )
         ax.plot(y_coords, psi, color="#125d92", linewidth=1.5, label="tsunami wave")
 
         ax.axvline(x=shelf_end, color="black", linestyle="--", linewidth=0.8)
@@ -282,7 +282,14 @@ def animate_cross_section_y(
         ax.grid(True, linewidth=0.3, alpha=0.4)
         ax.set_xlim(0, y_coords.max())
         ax2 = ax.twinx()
-        ax2.plot(y_coords, bathy_section_km, linestyle="--", linewidth=1.2, color="#631212", label="bathymetry")
+        ax2.plot(
+            y_coords,
+            bathy_section_km,
+            linestyle="--",
+            linewidth=1.2,
+            color="#631212",
+            label="bathymetry",
+        )
         ax2.invert_yaxis()
         ax2.set_ylabel("depth (km)")
         ax2.set_ylim(ylim_bathy)
@@ -304,7 +311,60 @@ def animate_cross_section_y(
             h_max[frame] = np.max(psi)
             time_max[frame] = t_min
             bathymetry_max[frame] = bathy_section_km[np.argmax(psi)]
-    
+
+        fig, ax = pyplot.subplots(figsize=(10, 4))
+        ax2 = ax.twinx()
+
+        def update(frame):
+            ax.clear()
+            ax2.clear()
+
+            psi = wave_all[frame, :]
+            t_min = frame * outfreq * dt
+
+            ax.plot(y_coords, psi, color="#125d92", linewidth=1.5, label="tsunami wave")
+            ax.axvline(x=shelf_end, color="black", linestyle="--", linewidth=0.8)
+            ax.axvline(x=slope_end, color="black", linestyle="--", linewidth=0.8)
+
+            ax.set(
+                xlim=(y_coords[0], y_coords[-1]),
+                ylim=ylim_wave,
+                xlabel="$y$ [km]",
+                ylabel="$\eta$ [m]",
+                title=f"Tsunami propagation,  t = {t_min:.2f} min",
+            )
+            ax.grid(True, linewidth=0.3, alpha=0.4)
+            ax.set_xlim(0, y_coords.max())
+
+            ax2.plot(
+                y_coords,
+                bathy_section_km,
+                linestyle="--",
+                linewidth=1.2,
+                color="#631212",
+                label="bathymetry",
+            )
+            ax2.invert_yaxis()
+            ax2.set_ylabel("depth (km)")
+            ax2.set_ylim(ylim_bathy)
+
+            lines1, labels1 = ax.get_legend_handles_labels()
+            lines2, labels2 = ax2.get_legend_handles_labels()
+            if lines1 or lines2:
+                ax.legend(lines1 + lines2, labels1 + labels2, loc="upper right")
+
+            return ax, ax2
+
+        anim = animation.FuncAnimation(
+            fig,
+            update,
+            frames=n_snaps,
+            interval=50,
+            blit=False,
+        )
+        anim.save("tsunami_cross_section.gif", writer="pillow", fps=10)
+        pyplot.close(fig)
+
     fig_max, ax_max = pyplot.subplots(figsize=(10, 4))
     ax_max.plot(time_max, h_max, label="Max wave height", color="#125d92")
     ax_max.set(
@@ -315,10 +375,17 @@ def animate_cross_section_y(
     ax_max.grid(True, linewidth=0.3, alpha=0.4)
 
     ax_max2 = ax_max.twinx()
-    ax_max2.plot(time_max, bathymetry_max, linestyle="--", linewidth=1.2, color="#631212", label="bathymetry at max height")
+    ax_max2.plot(
+        time_max,
+        bathymetry_max,
+        linestyle="--",
+        linewidth=1.2,
+        color="#631212",
+        label="bathymetry at max height",
+    )
     ax_max2.set_ylabel("depth [km]")
     ax_max2.invert_yaxis()
-    ax_max2.set_yscale('log')
+    ax_max2.set_yscale("log")
 
     lines1, labels1 = ax_max.get_legend_handles_labels()
     lines2, labels2 = ax_max2.get_legend_handles_labels()
@@ -327,7 +394,7 @@ def animate_cross_section_y(
 
     pyplot.tight_layout()
     show_plot(filename="max_wave_height_over_time.png")
-   
+
 
 
 
