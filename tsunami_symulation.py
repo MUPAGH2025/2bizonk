@@ -186,7 +186,7 @@ def make_h_initial(*,
     vh_initial = np.zeros_like(h_initial)
 
     if draw_profile:
-        fig, (ax_eta, ax_bathy) = pyplot.subplots(1, 2, figsize=(10, 5))
+        fig, (ax_eta, ax_bathy) = pyplot.subplots(1, 2, figsize=(12, 5))
 
         im = ax_eta.imshow(
             eta0 * 1000.0,
@@ -195,10 +195,10 @@ def make_h_initial(*,
             aspect="auto"
         )
         cbar = fig.colorbar(im, ax=ax_eta, pad=0.02)
-        cbar.set_label("wave height [m]", fontsize=20)
-        ax_eta.set_xlabel("y [km]", fontsize=20)
-        ax_eta.set_ylabel("x [km]", fontsize=20)
-        ax_eta.set_title("Initial disturbance of the water surface", fontsize=20)
+        cbar.set_label("wave height [m]", fontsize=15)
+        ax_eta.set_xlabel("y [km]", fontsize=15)
+        ax_eta.set_ylabel("x [km]", fontsize=15)
+        ax_eta.set_title("Initial disturbance of the water surface", fontsize=15)
         ax_eta.grid(False)
 
         y_line = Y[0, :]
@@ -207,14 +207,14 @@ def make_h_initial(*,
         ax_bathy.plot(y_line, depth_profile, label="Bathymetry profile")
         ax_bathy.fill_between(y_line, 0.0, depth_profile, alpha=0.3)
         ax_bathy.invert_yaxis()
-        ax_bathy.set_xlabel("y (km)", fontsize=20)
-        ax_bathy.set_ylabel("Depth (km)", fontsize=20)
-        ax_bathy.set_title("Bathymetry", fontsize=20)
+        ax_bathy.set_xlabel("y (km)", fontsize=15)
+        ax_bathy.set_ylabel("Depth (km)", fontsize=15)
+        ax_bathy.set_title("Bathymetry", fontsize=15)
         ax_bathy.grid(True)
         ax_bathy.legend()
 
         pyplot.tight_layout()
-        _ = show_plot(filename="initial_eta.png")
+        show_plot(filename="initial_eta.png");
     return h_initial, uh_initial, vh_initial
 
 
@@ -280,9 +280,9 @@ def animate_cross_section_y(
         )
 
         ax.tick_params(labelsize=16)
-        ax.xaxis.label.set_size(20)
-        ax.yaxis.label.set_size(20)
-        ax.title.set_size(20)
+        ax.xaxis.label.set_size(15)
+        ax.yaxis.label.set_size(15)
+        ax.title.set_size(15)
 
         ax.grid(True, linewidth=0.3, alpha=0.4)
         ax.set_xlim(0, y_coords.max())
@@ -342,9 +342,9 @@ def animate_cross_section_y(
             ax.set_xlim(0, y_coords.max())
 
             ax.tick_params(labelsize=16)
-            ax.xaxis.label.set_size(20)
-            ax.yaxis.label.set_size(20)
-            ax.title.set_size(20)
+            ax.xaxis.label.set_size(15)
+            ax.yaxis.label.set_size(15)
+            ax.title.set_size(15)
 
             ax2.plot(
                 y_coords,
@@ -384,9 +384,9 @@ def animate_cross_section_y(
     )
 
     ax_max.tick_params(labelsize=16)
-    ax_max.xaxis.label.set_size(20)
-    ax_max.yaxis.label.set_size(20)
-    ax_max.title.set_size(20)
+    ax_max.xaxis.label.set_size(15)
+    ax_max.yaxis.label.set_size(15)
+    ax_max.title.set_size(15)
 
     ax_max.grid(True, linewidth=0.3, alpha=0.4)
 
@@ -399,7 +399,7 @@ def animate_cross_section_y(
         color="#631212",
         label="bathymetry at max height",
     )
-    ax_max2.set_ylabel("depth [km]", fontsize=20)
+    ax_max2.set_ylabel("depth [km]", fontsize=15)
     ax_max2.invert_yaxis()
     ax_max2.set_yscale("log")
 
@@ -409,8 +409,8 @@ def animate_cross_section_y(
         ax_max.legend(lines1 + lines2, labels1 + labels2, loc="upper right")
 
     pyplot.tight_layout()
-    _ = show_plot(filename="max_wave_height_over_time.png")
-
+    show_plot(filename="max_wave_height_over_time.png");
+    
 
 
 
@@ -441,10 +441,10 @@ def plot_space_time_diagram(
         cmap=cmap
     )
 
-    ax.set_xlabel("y [km]", fontsize=20)
-    ax.set_ylabel("time [min]", fontsize=20)
+    ax.set_xlabel("y [km]", fontsize=15)
+    ax.set_ylabel("time [min]", fontsize=15)
     ax.set_xlim(0, 600)
-    ax.set_title("Space-time diagram of tsunami wave height", fontsize=20)
+    ax.set_title("Space-time diagram of tsunami wave height", fontsize=15)
     ax.grid(False)
 
     ax.axvline(x=shelf_end, color='black', linestyle='--', linewidth=2)
@@ -492,5 +492,5 @@ def plot_space_time_diagram(
             )
 
     pyplot.tight_layout()
-    _ = show_plot(filename=f"space_time_diagram.png")
+    show_plot(filename=f"space_time_diagram.png");
     
