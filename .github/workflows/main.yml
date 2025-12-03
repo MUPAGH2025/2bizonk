@@ -4,7 +4,7 @@ jobs:
   pdf: 
     runs-on: ubuntu-22.04
     steps:
-      - run: pip install ipykernel scipy pint matplotlib open_atmos_jupyter_utils
+      - run: pip install ipykernel scipy pint matplotlib open_atmos_jupyter_utils PyMPDATA
       - uses: actions/checkout@v4
       - run: sudo apt-get install texlive-xetex inkscape pandoc
       - run: pip install nbconvert
