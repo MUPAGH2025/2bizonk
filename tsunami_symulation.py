@@ -214,6 +214,7 @@ def make_h_initial(*,
 
         pyplot.tight_layout()
         show_plot(filename="initial_eta.png")
+    return h_initial, uh_initial, vh_initial
 
 
 def animate_cross_section_y(
