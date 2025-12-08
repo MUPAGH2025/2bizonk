@@ -1,19 +1,25 @@
 name: sprawozdanie1
 on: push
+
 jobs:
   pdf: 
     runs-on: ubuntu-22.04
     steps:
-      - run: pip install ipykernel scipy pint matplotlib open_atmos_jupyter_utils PyMPDATA
       - uses: actions/checkout@v4
-      - run: sudo apt-get install texlive-xetex inkscape pandoc
-      - run: pip install nbconvert
+
+      - run: pip install ipykernel scipy pint matplotlib open_atmos_jupyter_utils PyMPDATA nbconvert
+
+      - run: sudo apt-get install -y texlive-xetex inkscape pandoc
+
       - run: |
           python -m nbconvert \
             --to pdf \
             --execute \
             --no-input \
+            --template remove_title \
+            --TemplateExporter.extra_template_basedirs=.nbconvert \
             tsunami_symulation.ipynb
+
       - uses: actions/upload-artifact@v4
         with:
           path: |
