@@ -357,6 +357,9 @@ def animate_cross_section_y(
             psi = wave_all[frame, :]
             t_min = frame * outfreq * dt
 
+            ax2.yaxis.set_label_position("right")
+            ax2.yaxis.tick_right()
+
             ax.plot(y_coords, psi, color="#125d92", linewidth=1.5, label="tsunami wave")
             ax.axvline(x=shelf_end, color="black", linestyle="--", linewidth=0.8)
             ax.axvline(x=slope_end, color="black", linestyle="--", linewidth=0.8)
