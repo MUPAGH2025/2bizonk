@@ -413,7 +413,7 @@ def animate_cross_section_y(
     ax_max.set(
         xlabel="time [min]",
         ylabel="max wave height [m]",
-        title="maximum wave height over time",
+        # title="maximum wave height over time",
     )
 
     ax_max.tick_params(labelsize=16)
@@ -477,7 +477,7 @@ def plot_space_time_diagram(
     ax.set_xlabel("y [km]", fontsize=15)
     ax.set_ylabel("time [min]", fontsize=15)
     ax.set_xlim(0, 600)
-    ax.set_title("Space-time diagram of tsunami wave height", fontsize=15)
+    # ax.set_title("Space-time diagram of tsunami wave height", fontsize=15)
     ax.grid(False)
 
     ax.axvline(x=shelf_end, color='black', linestyle='--', linewidth=2)

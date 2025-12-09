@@ -18,7 +18,7 @@ jobs:
 
           sed -i '/HBox(children=/d' tsunami_symulation.tex
 
-          sed -i '0,/\\begin{document}/s//\\begin{document}\n\\fontsize{10pt}{12pt}\\selectfont\n\\title{Symulacja przejścia fali tsunami przez stok kontynentalny}\n\\author{Karol Bizon}\n\\date{}\n\\maketitle\n/' tsunami_symulation.tex
+          sed -i '0,/\\begin{document}/s//\\begin{document}\n\\fontsize{10pt}{12pt}\\selectfont\n\\title{Symulacja przejścia fali tsunami przez stok kontynentalny}\n\\author{Karol Bizoń}\n\\date{}\n\\maketitle\n/' tsunami_symulation.tex
 
           xelatex -interaction=nonstopmode tsunami_symulation.tex
           xelatex -interaction=nonstopmode tsunami_symulation.tex
