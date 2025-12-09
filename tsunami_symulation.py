@@ -347,7 +347,7 @@ def animate_cross_section_y(
             time_max[frame] = t_min
             bathymetry_max[frame] = bathy_section_km[np.argmax(psi)]
 
-        fig, ax = pyplot.subplots(figsize=(10, 4))
+        fig, ax = pyplot.subplots(figsize=(12, 6))
         ax2 = ax.twinx()
 
         def update(frame):
@@ -371,10 +371,10 @@ def animate_cross_section_y(
             ax.grid(True, linewidth=0.3, alpha=0.4)
             ax.set_xlim(0, y_coords.max())
 
-            ax.tick_params(labelsize=16)
-            ax.xaxis.label.set_size(15)
-            ax.yaxis.label.set_size(15)
-            ax.title.set_size(15)
+            ax.tick_params(labelsize=14)
+            ax.xaxis.label.set_size(14)
+            ax.yaxis.label.set_size(14)
+            ax.title.set_size(14)
 
             ax2.plot(
                 y_coords,
@@ -385,7 +385,7 @@ def animate_cross_section_y(
                 label="bathymetry",
             )
             ax2.invert_yaxis()
-            ax2.set_ylabel("depth [km]", fontsize=20)
+            ax2.set_ylabel("depth [km]", fontsize=14)
             ax2.set_ylim(ylim_bathy)
 
             lines1, labels1 = ax.get_legend_handles_labels()
