@@ -305,7 +305,7 @@ def animate_cross_section_y(
             xlim=(y_coords[0], y_coords[-1]),
             ylim=ylim,
             xlabel="$y$ [km]",
-            ylabel="$wave height$ [m]",
+            ylabel="wave height [m]",
             title=f"Tsunami propagation,  t = {t_min:.2f} min",
         )
 
@@ -368,7 +368,7 @@ def animate_cross_section_y(
                 xlim=(y_coords[0], y_coords[-1]),
                 ylim=ylim_wave,
                 xlabel="$y$ [km]",
-                ylabel="$wave height$ [m]",
+                ylabel="wave height [m]",
                 title=f"Tsunami propagation,  t = {t_min:.2f} min",
             )
             ax.grid(True, linewidth=0.3, alpha=0.4)
