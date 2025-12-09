@@ -1,27 +1,31 @@
-name: sprawozdanie1
+name: sprawozdanie_pdf
 on: push
-
 jobs:
-  pdf: 
+  pdf:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-
-      - run: pip install ipykernel scipy pint matplotlib open_atmos_jupyter_utils PyMPDATA nbconvert
-
-      - run: sudo apt-get install -y texlive-xetex inkscape pandoc
-
+      - run: pip install ipykernel scipy pint open_atmos_jupyter_utils numpy PyMPDATA
+      - run: sudo apt-get update && sudo apt-get install -y texlive-xetex texlive-latex-extra inkscape pandoc
+      - run: pip install nbconvert
+      - run: jupyter nbconvert --to latex --execute tsunami_symulation.ipynb --TemplateExporter.exclude_input=True
       - run: |
-          python -m nbconvert \
-            --to pdf \
-            --execute \
-            --no-input \
-            --template remove_title \
-            --TemplateExporter.extra_template_basedirs=.nbconvert \
-            tsunami_symulation.ipynb
+          sed -i '/\\title{/d'      tsunami_symulation.tex
+          sed -i '/\\author{/d'     tsunami_symulation.tex
+          sed -i '/\\date{/d'       tsunami_symulation.tex
+          sed -i '/\\maketitle/d'   tsunami_symulation.tex
+
+          sed -i '/HBox(children=/d' tsunami_symulation.tex
+
+          sed -i '0,/\\begin{document}/s//\\begin{document}\n\\title{Symulacja przejścia fali tsunami przez stok kontynentalny}\n\\author{Karol Bizon}\n\\date{}\n\\maketitle\n/' tsunami_symulation.tex
+
+          xelatex -interaction=nonstopmode tsunami_symulation.tex
+          xelatex -interaction=nonstopmode tsunami_symulation.tex
+      
 
       - uses: actions/upload-artifact@v4
         with:
+          name: sprawozdanie_Karol_Bizon
           path: |
             tsunami_symulation.pdf
-            tsunami_cross_section.gif
+            tsunami_cross_sectiion.gif
