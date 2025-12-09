@@ -439,7 +439,7 @@ def animate_cross_section_y(
         ax_max.legend(lines1 + lines2, labels1 + labels2, loc="upper right")
 
     pyplot.tight_layout()
-    show_plot(filename="max_wave_height_over_time.png");
+    show_plot(filename="max_wave_height_over_time.png")
     
 
 
